@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { StyleSheet,
+import { 
+  StyleSheet,
   TextInput,
   Button,
   TouchableOpacity,
-  AsyncStorage } from 'react-native';
+  AsyncStorage,
+  Image
+        } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Ionicons } from '@expo/vector-icons';
@@ -49,11 +52,15 @@ const Login = ({history}) => {
   }
     return (
         <View style={styles.container}>
-          <Text style={{fontSize: 40, marginBottom: 20}}>RecipE-book</Text>
+          <Image style={{width: 300, height: 300}} source={{uri: 'https://i.imgur.com/5gpNhHF.png',}}/>
+          
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.icons}><Ionicons name="person-outline" style={{fontSize: 30}}/></Text>
         <TextInput autoCapitalize="none" type="text" name="username" value={formData.username} onChangeText={(text) => createChange({ type: 'username', text })} style={styles.input}/>
         </View>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
         <View style={{flexDirection: 'row'}}>
         <Text style={styles.icons}><Ionicons name="lock-closed-outline" style={{fontSize: 30, marginBottom: -10}}/></Text>
         <TextInput autoCapitalize="none" secureTextEntry={true} textContentType="password" name="password" value={formData.password} onChangeText={(text) => createChange({ type: 'password', text })} style={styles.input}/>
@@ -72,17 +79,21 @@ const Login = ({history}) => {
       borderBottomWidth: 3,
       width: "70%",
       height: 45,
-      marginBottom: 20,
-      marginRight: 15,
+      
+      paddingLeft: 15,
+      marginRight: -3,
+      paddingRight: 15,
       alignItems: "center",
-      padding: 10
+      backgroundColor: 'rgb(169,172,188)',
     },
     icons: {
       borderBottomWidth: 3,
+      marginLeft: -15,
       height: 45,
       fontSize: 30, 
       paddingLeft: 10,
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: 'rgb(169,172,188)',
     },
     btn: {
       width: "80%",
@@ -117,9 +128,9 @@ const Login = ({history}) => {
     },
     container: {
       flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+      backgroundColor: 'rgb(169,172,188)',
+      alignItems: 'center',
+      justifyContent: 'center',
     }
   });
 

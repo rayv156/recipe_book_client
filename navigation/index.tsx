@@ -25,7 +25,6 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
   const {gState, setgState} = React.useContext(GlobalCtx)
-  console.log(`${gState.token} && ${gState.user_id} in index.tsx line 28`)
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {gState.token ? <Stack.Screen name="Root" component={BottomTabNavigator} /> : <Stack.Screen name="Root" component={Login} />}

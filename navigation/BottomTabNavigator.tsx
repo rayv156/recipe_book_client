@@ -9,6 +9,8 @@ import useColorScheme from '../hooks/useColorScheme';
 import Home from '../screens/Home';
 import Favorites from '../screens/Favorites';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { Image, TextInput, StyleSheet } from 'react-native'
+import { Text, View } from '../components/Themed';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -61,13 +63,25 @@ function TabBarIcon(props: { name: string; color: string }) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator<HomeParamList>();
 
+function LogoTitle() {
+  return (<>
+    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 0, width: '110%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center'}}>
+      <Image style={{width: 100, height: 33, margin: 0}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
+      <TextInput autoCapitalize="none" type="text" name="search" value="search" style={styles.input}/>
+      <Text><Ionicons name="settings-outline"></Ionicons></Text>
+    </View>
+    </>
+  );
+}
+
+
 function HomeNavigator() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
         name="HomeScreen"
         component={Home}
-        options={{ headerTitle: 'Recipes' }}
+        options={{ headerShown: false }}
       />
     </HomeStack.Navigator>
   );
@@ -114,3 +128,5 @@ function TimerNavigator() {
     </TimerStack.Navigator>
   );
 }
+
+
