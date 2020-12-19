@@ -1,0 +1,69 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.10/libexec/bin/yarn.js install
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.5.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: ENOSPC: no space left on device, copyfile '/Users/rayvelasquez/Library/Caches/Yarn/v6/npm-babel-plugin-module-resolver-3.2.0-ddfa5e301e3b9aa12d852a9979f18b37881ff5a7-integrity/node_modules/babel-plugin-module-resolver/lib/utils.js' -> '/Users/rayvelasquez/React/recipe_book_client/node_modules/babel-plugin-module-resolver/lib/utils.js'
+
+npm manifest: 
+  {
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject",
+      "test": "jest --watchAll"
+    },
+    "jest": {
+      "preset": "jest-expo"
+    },
+    "dependencies": {
+      "@expo/vector-icons": "^12.0.0",
+      "@react-native-community/masked-view": "0.1.10",
+      "@react-navigation/bottom-tabs": "^5.11.1",
+      "@react-navigation/native": "^5.8.9",
+      "@react-navigation/stack": "^5.12.6",
+      "expo": "~40.0.0",
+      "expo-asset": "~8.2.1",
+      "expo-constants": "~9.3.0",
+      "expo-font": "~8.4.0",
+      "expo-linking": "~2.0.0",
+      "expo-splash-screen": "~0.8.0",
+      "expo-status-bar": "~1.0.3",
+      "expo-web-browser": "~8.6.0",
+      "react": "16.13.1",
+      "react-dom": "16.13.1",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+      "react-native-gesture-handler": "~1.8.0",
+      "react-native-safe-area-context": "3.1.9",
+      "react-native-screens": "~2.15.0",
+      "react-native-web": "~0.13.12"
+    },
+    "devDependencies": {
+      "@babel/core": "~7.9.0",
+      "@types/react": "~16.9.35",
+      "@types/react-native": "~0.63.2",
+      "jest-expo": "~40.0.0",
+      "typescript": "~4.0.0"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
