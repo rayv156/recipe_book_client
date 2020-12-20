@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import GroceryList from '../screens/GroceryList'
 import Timer from '../screens/Timer'
+import Settings from '../screens/Settings'
+
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import Home from '../screens/Home';
@@ -47,6 +49,13 @@ export default function BottomTabNavigator() {
         component={TimerNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="timer-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Settings"
+        component={SettingsNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="settings-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -126,6 +135,20 @@ function TimerNavigator() {
         options={{ headerTitle: 'Timer' }}
       />
     </TimerStack.Navigator>
+  );
+}
+
+const SettingsStack = createStackNavigator<SettingsParamList>();
+
+function SettingsNavigator() {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen
+        name="SettingsScreen"
+        component={Settings}
+        options={{ headerTitle: 'Timer' }}
+      />
+    </SettingsStack.Navigator>
   );
 }
 

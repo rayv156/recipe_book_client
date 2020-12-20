@@ -13,41 +13,40 @@ import { GlobalCtx } from '../App'
 const Home = () => {
   const {gState, setgState} = React.useContext(GlobalCtx)
 
+  const [URL, setURL] = React.useState({
+    url: `https://api.spoonacular.com/recipes/random?number=20&apiKey=b154528e8f6c4ade84dfdadf47dbeada`
+})
+
   const [recipes, setRecipes]= React.useState([])
 
   const [formData, setFormData] = React.useState({
-    term: "pasta",
+    term: "",
   })
 
   const getRecipes = async () => {
-    const response = await fetch(`https://api.spoonacular.com/recipes/complexSearch?query=${formData.term}&number=20&apiKey=b154528e8f6c4ade84dfdadf47dbeada`)
+    const response = await fetch(URL.url)
     const data = await response.json()
-    setRecipes(data.results)
+    if (data.recipes) {
+      setRecipes(data.recipes)
+    } else {
+      setRecipes(data.results)
+    }
   }
 
   React.useEffect(() => {
     getRecipes()
   }, [])
-  
-  const removeKey = async () => {
-    await AsyncStorage.removeItem('secure_token')
-    setgState({...gState, token: null, user_id: null})
-  }
 
+  
+  
 
   const loaded = () => (
     <View>
-    {recipes.map((recipe)=> {
+    {recipes.map((recipe, index)=> {
       return (
-              <View>
-                <Text>{recipe.title}</Text>
+              <View key={`item${index}`} style={{borderRadius: 15, marginBottom: 10}}>
+                <Text style={{textAlign: 'center'}}>{recipe.title}</Text>
                 <Image style={{width: '100%', height: 300}} source={{uri: `${recipe.image}`}} />
-      <Button title="Delete" onPress={async ()=> {
-        await fetch("https://dogs-app-api.herokuapp.com/dogs/" + recipe.id, {
-          method: "delete"
-        })
-        getRecipes()
-      }}></Button>
               </View>
         
     )
@@ -57,28 +56,26 @@ const Home = () => {
 
   const createChange = ({ type, text }) => 
   setFormData({...formData, [type]: text});
-
-//our handle create function, for when the form is submitted
-const handleSubmit = async () => {
-  await fetch("https://dogs-app-api.herokuapp.com/dogs", {
-    method: "post",
-    headers: {
-      "Content-Type":"application/json"
-    },
-    body: JSON.stringify(formData)
-  })
+  
+  //our handle create function, for when the form is submitted
+  const handleSubmit = async () => {
+  setURL({...URL, url: `https://api.spoonacular.com/recipes/complexSearch?query=${formData.term}&number=20&apiKey=b154528e8f6c4ade84dfdadf47dbeada`})
+  console.log(URL.url)
+  console.log(formData.term)
   getRecipes()
 }
 
   return (
     <SafeAreaView>
-      <ScrollView>
-    <View style={styles.container}>
-      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 0, width: '110%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center'}}>
+      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', padding: 15}}>
         <Image style={{width: 100, height: 33, margin: 0}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
         <TextInput autoCapitalize="none" type="text" name="search" value={formData.term} onChangeText={(text) => createChange({ type: 'term', text })} style={styles.input}/>
-        <Text><Ionicons name="settings-outline"></Ionicons></Text>
+        <TouchableOpacity onPress={()=> handleSubmit()}>
+        <Text><Ionicons name="search-outline" style={{fontSize: 20}}></Ionicons></Text>
+        </TouchableOpacity>
       </View>
+      <ScrollView>
+    <View style={styles.container}>
 
 
       {recipes.length > 0 ? loaded() : null}
@@ -118,7 +115,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    width: "70%",
+    width: "50%",
     height: 45,
     margin: 'auto',
     paddingLeft: 15,
