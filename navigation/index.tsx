@@ -4,6 +4,7 @@ import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import Login from './Login'
 import NotFoundScreen from '../screens/NotFoundScreen';
+import Show from '../screens/Show';
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -29,6 +30,7 @@ function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {gState.token ? <Stack.Screen name="Root" component={BottomTabNavigator} /> : <Stack.Screen name="Root" component={Login} />}
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="Show" component={Show} options={{ title: 'Recipe' }} />
     </Stack.Navigator>
   );
 }
