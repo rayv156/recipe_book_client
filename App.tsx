@@ -7,12 +7,13 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 
 import Navigation from './navigation';
+import Login from './navigation/Login'
 
 export const GlobalCtx = React.createContext(null)
 
 
 export default function App() {
-  const [gState, setgState]= React.useState({token: false, user_id: null})
+  const [gState, setgState]= React.useState({token: false, user_id: null, url: "http://localhost:3000"})
 
   const getItems = async () => {
     const token = await AsyncStorage.getItem('secure_token')
@@ -42,7 +43,7 @@ export default function App() {
     return (
         <GlobalCtx.Provider value={{ gState, setgState }}>
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
+      {gState.token ? <Navigation colorScheme={colorScheme} /> : <Login />}
         <StatusBar />
       </SafeAreaProvider>
         </GlobalCtx.Provider>

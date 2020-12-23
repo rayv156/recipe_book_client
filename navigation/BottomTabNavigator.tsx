@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import GroceryList from '../screens/GroceryList'
 import Timer from '../screens/Timer'
-import Settings from '../screens/Settings'
+import Settings from '../screens/Settings.jsx'
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -146,7 +146,7 @@ function SettingsNavigator() {
       <SettingsStack.Screen
         name="SettingsScreen"
         component={Settings}
-        options={{ headerTitle: 'Timer' }}
+        options={{ headerTitle: 'Settings' }}
       />
     </SettingsStack.Navigator>
   );

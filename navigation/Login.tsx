@@ -15,6 +15,8 @@ import { GlobalCtx } from '../App';
 
 const Login = ({history}) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
+
+  const {url} = gState
     const [formData, setFormData] = React.useState({
         username: "",
         password: ""
@@ -26,8 +28,8 @@ const Login = ({history}) => {
 
   //our handle create function, for when the form is submitted
   const handleCreate = async () => {
-    console.log("hello")
-    await fetch("https://dogs-app-api.herokuapp.com/login", {
+    
+    await fetch(`${url}/login`, {
       method: "post",
       headers: {
         "Content-Type":"application/json"
@@ -39,8 +41,8 @@ const Login = ({history}) => {
       try {
         if (data.token) {
         await AsyncStorage.setItem('secure_token', `${data.token}`);
-        await AsyncStorage.setItem('userid', `${data.user_id}`)
-        setgState({...gState, token: true, user_id: data.user_id})
+        await AsyncStorage.setItem('userid', `${data.user}`)
+        setgState({...gState, token: true, user_id: data.user.id})
         } else {
           setgState({...gState, token: false, user_id: null})
         }
@@ -94,6 +96,7 @@ const Login = ({history}) => {
       paddingLeft: 10,
       alignItems: 'center',
       backgroundColor: 'rgb(169,172,188)',
+      color: 'black'
     },
     btn: {
       width: "80%",
@@ -130,7 +133,7 @@ const Login = ({history}) => {
       flex: 1,
       backgroundColor: 'rgb(169,172,188)',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
     }
   });
 

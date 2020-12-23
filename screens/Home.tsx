@@ -70,8 +70,6 @@ const Home = ({ navigation }) => {
 
   //our handle create function, for when the form is submitted
   const handleSubmit = async () => {
-  console.log(URL.url)
-  console.log(formData.term)
   getRecipes()
 }
 
