@@ -74,8 +74,8 @@ const Home = ({ navigation }) => {
 }
 
   return (
-    <SafeAreaView>
-      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', padding: 15}}>
+    <>
+      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', padding: 15, paddingTop: 50}}>
         <Image style={{width: 150, height: 50, margin: 0}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
         <TextInput autoCapitalize="none" type="text" name="search" value={formData.term} onChangeText={(text) => createChange({ type: 'term', text })} onSubmitEditing={()=> handleSubmit()} style={styles.input}/>
         
@@ -92,9 +92,8 @@ const Home = ({ navigation }) => {
 
     </View>
     </ScrollView>
-    </SafeAreaView>
-    
-
+   
+</>
     
     
   );

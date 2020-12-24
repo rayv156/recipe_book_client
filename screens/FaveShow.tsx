@@ -44,7 +44,7 @@ const FaveShow = ({
                 <Text >
                   {favorite.summary}
                 </Text>
-                <TouchableOpacity onPress={async ()=> {
+                <Button onPress={async ()=> {
         const token = await AsyncStorage.getItem('secure_token');
       await fetch(`${gState.url}/recipes/` + favorite.id, {
         method: "delete",
@@ -53,8 +53,8 @@ const FaveShow = ({
           "Authorization": `bearer ${token}`
         },
       })
-      getFavorites()
-    }}><Button><Text>Delete</Text></Button></TouchableOpacity>
+      navigation.goBack()
+    }}><Text>Delete</Text></Button>
               </Card>
         
         </Container>

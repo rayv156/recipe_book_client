@@ -41,7 +41,7 @@ const Login = ({history}) => {
       try {
         if (data.token) {
         await AsyncStorage.setItem('secure_token', `${data.token}`);
-        await AsyncStorage.setItem('userid', `${data.user}`)
+        await AsyncStorage.setItem('userid', JSON.stringify(data.user))
         setgState({...gState, token: true, user_id: data.user.id})
         } else {
           setgState({...gState, token: false, user_id: null})

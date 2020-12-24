@@ -5,6 +5,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
 import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body } from 'native-base';
 import * as Font from 'expo-font';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Favorites = ({navigation}) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
@@ -34,12 +35,12 @@ const Favorites = ({navigation}) => {
 
   const loaded = () => (
     <Container style={{width: 350}}>
-    {favorites.map((favorite)=> {
+    {favorites.reverse().map((favorite, index)=> {
       return (
         <TouchableOpacity onPress={() => navigation.navigate('FaveShow', {
           favorite: favorite})
         }>
-              <Card>
+              <Card key={`favorite${index}`}>
                 <CardItem>
                   <Left>
                     <Thumbnail source={{uri: `${favorite.img}`}}/>
@@ -59,9 +60,11 @@ const Favorites = ({navigation}) => {
 
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       {favorites.length > 0 ? loaded() : null}
     </View>
+    </ScrollView>
   );
 }
 

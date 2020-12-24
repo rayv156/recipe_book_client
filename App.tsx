@@ -17,9 +17,9 @@ export default function App() {
 
   const getItems = async () => {
     const token = await AsyncStorage.getItem('secure_token')
-    const user_id = await AsyncStorage.getItem('userid')
+    const user = await JSON.parse(AsyncStorage.getItem('userid'))
     if (token) {
-      return setgState({...gState, token: true, user_id: user_id})
+      return setgState({...gState, token: true, user_id: user.id})
     } else {
       return setgState({...gState, token: false, user_id: null})
     }
