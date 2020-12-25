@@ -4,9 +4,9 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
-  AsyncStorage,
   Image
         } from 'react-native';
+import * as SecureStore from 'expo-secure-store'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Ionicons } from '@expo/vector-icons';
@@ -40,8 +40,8 @@ const Login = ({history}) => {
     .then(async (data) => {
       try {
         if (data.token) {
-        await AsyncStorage.setItem('secure_token', `${data.token}`);
-        await AsyncStorage.setItem('userid', JSON.stringify(data.user))
+        await SecureStore.setItemAsync('secure_token', `${data.token}`);
+        await SecureStore.setItemAsync('userid', JSON.stringify(data.user))
         setgState({...gState, token: true, user_id: data.user.id})
         } else {
           setgState({...gState, token: false, user_id: null})

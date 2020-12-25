@@ -13,7 +13,7 @@ export const GlobalCtx = React.createContext(null)
 
 
 export default function App() {
-  const [gState, setgState]= React.useState({token: false, user_id: null, url: "http://localhost:3000"})
+  const [gState, setgState]= React.useState({token: false, user_id: null, url: "https://ray-recipe-book-api.herokuapp.com"})
 
   const getItems = async () => {
     const token = await AsyncStorage.getItem('secure_token')

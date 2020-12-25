@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import * as SecureStore from 'expo-secure-store'
 
 const GroceryList = () => {
   const {gState, setgState} = React.useContext(GlobalCtx)
@@ -43,7 +44,7 @@ const GroceryList = () => {
                   {grocery.summary}
                 </Text>
                 <TouchableOpacity onPress={async ()=> {
-        const token = await AsyncStorage.getItem('secure_token');
+        const token = await SecureStore.getItemAsync('secure_token');
       await fetch(`${gState.url}/grocery_lists/` + grocery.id, {
         method: "delete",
         headers: {

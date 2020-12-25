@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import * as SecureStore from 'expo-secure-store'
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
@@ -12,7 +13,7 @@ const Favorites = ({navigation}) => {
   const [favorites, setFavorites]= React.useState([])
 
   const getFavorites = async () => {
-    const token = await AsyncStorage.getItem('secure_token')
+    const token = await SecureStore.getItemAsync('secure_token')
     const response = await fetch(`${gState.url}/recipes`, {
       method: "get",
       headers: {

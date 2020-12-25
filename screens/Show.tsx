@@ -1,12 +1,13 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
 import { StyleSheet, TouchableOpacity, View, Image, AsyncStorage } from 'react-native';
+import * as SecureStore from 'expo-secure-store'
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../types';
 import { GlobalCtx } from '../App'
-import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body, Fab, Icon } from 'native-base';
+import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body, Fab, Icon, H1 } from 'native-base';
 export default function Show({
   route, navigation,
 }: StackScreenProps<RootStackParamList, 'NotFound'>) {
@@ -70,7 +71,7 @@ export default function Show({
       }, [])
 
       const handleFavorite = async () => {
-        const token = await AsyncStorage.getItem('secure_token')
+        const token = await SecureStore.getItemAsync('secure_token')
         await fetch(gState.url + "/recipes", {
           method: "post",
           headers: {
@@ -87,11 +88,25 @@ export default function Show({
           
           return (
               
-              <View style={{display: 'flex', width: '90%', backgroundColor: 'rgb(37,74,80)'}}>
-                 <Text style={styles.title}>{item.title}</Text>
-                 <Text>{item.sourceName}</Text>
-                 <Text>{item.healthScore}</Text>
-                 <Image style={{width: '100%', height: 300, borderBottomLeftRadius: 15, borderBottomRightRadius: 15}} source={{uri: `${item.image}`}} />
+              <Card style={{width: '100%', shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.8,
+              shadowRadius: 2,}}>
+             <CardItem>
+                 <Body>
+                 <H1 style={styles.title}>{item.title}</H1>
+                 <Text>Source: {item.sourceName}</Text>
+                 <Text>Health Score: {item.healthScore}</Text>
+                 </Body>
+                 </CardItem>
+                 <CardItem>
+                     <Body>
+
+                 <Image style={{width: '100%', height: 300}} source={{uri: `${item.image}`}} />
+                 </Body>
+                 </CardItem>
+                 <CardItem>
+                     <Body>
                 <Text style={styles.title}>Ingredients:</Text>
                  {item.extendedIngredients.map((ingredient, index)=>{
                      return (<>
@@ -104,11 +119,18 @@ export default function Show({
 
 )
 })}
+</Body>
+</CardItem>
+ <CardItem>
+     <Body>
             <Text style={styles.title}>Instructions:</Text>
             {favorite.instructions.map((item)=> {
             return <Text>{item}</Text>
         })}
-        </View>
+        </Body>
+        </CardItem>
+        </Card>
+       
             
         
         
@@ -119,12 +141,12 @@ export default function Show({
     return (<>
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', paddingTop: 50, height: 100}}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.link}>
-          <Text style={{color: 'white', height: 50, fontSize: 25}}><Ionicons name="chevron-back-outline" style={{fontSize: 25, color: 'white'}}></Ionicons>Back</Text>
+          <Text style={{color: 'rgb(37,74,80)', height: 50, fontSize: 25}}><Ionicons name="chevron-back-outline" style={{fontSize: 25, color: 'rgb(37,74,80)'}}></Ionicons>Back</Text>
       </TouchableOpacity>
         <Image style={{width: 150, height: 50, margin: 0}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
       </View>
         
-          <ScrollView>
+          <ScrollView style={{backgroundColor: 'rgb(37,74,80)'}}>
     <View style={styles.container}>
      
 
@@ -150,7 +172,7 @@ export default function Show({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgb(37,74,80)',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
@@ -159,7 +181,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   link: {
     marginTop: 15,

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, AsyncStorage, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
@@ -41,11 +41,12 @@ const FaveShow = ({
                 <CardItem cardBody>
                   <Body>{favorite.ingredients.map((ingredient)=> (<Text>{`${ingredient} `}</Text>))}</Body>
                   </CardItem>
-                <Text >
-                  {favorite.summary}
-                </Text>
+                  {favorite.instructions.map((item)=>{
+                return <Text >{item}</Text>
+
+                  })}
                 <Button onPress={async ()=> {
-        const token = await AsyncStorage.getItem('secure_token');
+        const token = await SecureStore.getItemAsync('secure_token');
       await fetch(`${gState.url}/recipes/` + favorite.id, {
         method: "delete",
         headers: {
