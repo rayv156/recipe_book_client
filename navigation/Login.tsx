@@ -48,7 +48,7 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
         await SecureStore.setItemAsync('userid', JSON.stringify(data.user))
         setgState({...gState, token: true, user_id: data.user.id})
         } else {
-          setgState({...gState, token: false, user_id: null, error: true})
+          setgState({...gState, token: false, user_id: null, error: data.error})
         }
 
       } catch (err) {
@@ -63,14 +63,14 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
           <View style={{width: '100%', backgroundColor: '#fffbf3'}}>
           <View style={{flexDirection: 'row', width: '100%', backgroundColor: bckColor}}>
             <Text style={styles.icons}><Ionicons name="person-outline" style={{fontSize: 30}}/></Text>
-        <TextInput autoCapitalize="none" type="text" name="username" value={formData.username} onChangeText={(text) => createChange({ type: 'username', text })} style={styles.input}/>
+        <TextInput autoCapitalize="none" type="text" name="username" placeholder="username" value={formData.username} onChangeText={(text) => createChange({ type: 'username', text })} style={styles.input}/>
         </View>
         <Text></Text>
             <Text></Text>
             <Text></Text>
         <View style={{flexDirection: 'row', backgroundColor: bckColor}}>
         <Text style={styles.icons}><Ionicons name="lock-closed-outline" style={{fontSize: 30, marginBottom: -10}}/></Text>
-        <TextInput autoCapitalize="none" textContentType={'oneTimeCode'} secureTextEntry={true} name="password" value={formData.password} onChangeText={(text) => createChange({ type: 'password', text })} style={styles.input}/>
+        <TextInput autoCapitalize="none" textContentType={'oneTimeCode'} secureTextEntry={true} name="password" placeholder="password" value={formData.password} onChangeText={(text) => createChange({ type: 'password', text })} style={styles.input}/>
         </View>
         </View>
         <Text style={{color: 'red'}}>{gState.error}</Text>
@@ -83,7 +83,7 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
             <Text></Text>
             <Text></Text>
             <Text></Text>
-        <Text style={{textAlign: 'center'}}>If you don't have an account </Text>
+        <Text style={{textAlign: 'center'}}>If you don't have an account, cook one up here </Text>
         <TouchableOpacity style={styles.btnSignup} onPress={() => navigation.navigate('Signup')}><Text style={{color: 'white'}}>Signup</Text></TouchableOpacity>
         </View>
     

@@ -14,7 +14,7 @@ import { GlobalCtx } from '../App';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-
+const bckColor = '#fffbf3'
 
 const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
@@ -27,8 +27,15 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
         age: null,
       })
 
+      const [passwordCheck, setPasswordCheck] = React.useState({
+          passwordCheck: "",
+      })
+
     const createChange = ({ type, text }) => 
     setFormData({...formData, [type]: text});
+
+    const createChangePass = ({ type, text }) => 
+    setPasswordCheck({...passwordCheck, [type]: text});
 
 
   //our handle create function, for when the form is submitted
@@ -50,30 +57,36 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
     return (
         
         <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{margin: 'auto', backgroundColor: 'rgb(169,172,188)'}}>
-          <Image style={{width: 300, height: 300, alignSelf: 'center'}} source={{uri: 'https://i.imgur.com/5gpNhHF.png'}}/>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{margin: 'auto', backgroundColor: bckColor}}>
+          <Image style={{width: 300, height: 300, alignSelf: 'center'}} source={{uri: 'https://i.imgur.com/DLZFi0p.png'}}/>
           
-          <View style={{flexDirection: 'row', backgroundColor: 'rgb(169,172,188)', justifyContent: 'center'}}>
+          <View style={{flexDirection: 'row', backgroundColor: bckColor, justifyContent: 'center'}}>
             <Text style={styles.icons}><Ionicons name="person-outline" style={{fontSize: 30}}/></Text>
-        <TextInput autoCapitalize="none" type="text" name="username" value={formData.username} onChangeText={(text) => createChange({ type: 'username', text })} style={styles.input}/>
+        <TextInput autoCapitalize="none" type="text" name="username" placeholder="username" value={formData.username} onChangeText={(text) => createChange({ type: 'username', text })} style={styles.input}/>
         </View>
         <Text>
 
 
         </Text>
         
-        <View style={{flexDirection: 'row', backgroundColor: 'rgb(169,172,188)', justifyContent: 'center'}}>
+        <View style={{flexDirection: 'row', backgroundColor: bckColor, justifyContent: 'center'}}>
         <Text style={styles.icons}><Ionicons name="lock-closed-outline" style={{fontSize: 30, marginBottom: -10}}/></Text>
-        <TextInput autoCapitalize="none" textContentType={'oneTimeCode'} secureTextEntry={true} name="password" value={formData.password} onChangeText={(text) => createChange({ type: 'password', text })} style={styles.input}/>
+        <TextInput autoCapitalize="none" textContentType={'oneTimeCode'} secureTextEntry={true} name="password" placeholder="password" value={formData.password} onChangeText={(text) => createChange({ type: 'password', text })} style={styles.input}/>
+        </View>
+<Text></Text>
+
+        <View style={{flexDirection: 'row', backgroundColor: bckColor, justifyContent: 'center'}}>
+        <Text style={styles.icons}><Ionicons name="lock-closed-outline" style={{fontSize: 30, marginBottom: -10}}/></Text>
+        <TextInput autoCapitalize="none" textContentType={'oneTimeCode'} secureTextEntry={true} name="passwordCheck" placeholder="verify password" value={passwordCheck.passwordCheck} onChangeText={(text) => createChangePass({ type: 'passwordCheck', text })} style={styles.input}/>
         </View>
         <Text>
-
+        {formData.password === passwordCheck.passwordCheck ? null : <Text style={{color: 'red'}}>Passwords do not match</Text>}
 
         </Text>
         
-        <View style={{flexDirection: 'row', backgroundColor: 'rgb(169,172,188)', justifyContent: 'center'}}>
+        <View style={{flexDirection: 'row', backgroundColor: bckColor, justifyContent: 'center'}}>
         <Text style={styles.icons}><Ionicons name="mail-outline" style={{fontSize: 30, marginBottom: -10}}/></Text>
-        <TextInput autoCapitalize="none" type="text" name="email" value={formData.email} onChangeText={(text) => createChange({ type: 'email', text })} style={styles.input}/>
+        <TextInput autoCapitalize="none" type="text" name="email" placeholder="email" value={formData.email} onChangeText={(text) => createChange({ type: 'email', text })} style={styles.input}/>
         </View>
         </TouchableWithoutFeedback>
         <TouchableOpacity style={styles.btn} onPress={()=> handleCreate()}>
@@ -100,7 +113,7 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
       alignSelf: 'center',
       
       alignItems: "center",
-      backgroundColor: 'rgb(169,172,188)',
+      backgroundColor: bckColor,
     },
     icons: {
       borderBottomWidth: 3,
@@ -109,7 +122,7 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
       fontSize: 30, 
       paddingLeft: 10,
       alignItems: 'center',
-      backgroundColor: 'rgb(169,172,188)',
+      backgroundColor: bckColor,
       color: 'black'
     },
     btn: {
@@ -145,7 +158,7 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
     },
     container: {
       flex: 1,
-      backgroundColor: 'rgb(169,172,188)',
+      backgroundColor: bckColor,
       alignItems: 'center',
       justifyContent: 'flex-start',
     }

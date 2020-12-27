@@ -26,8 +26,10 @@ export default function App() {
   }
 
   React.useEffect(() => {
-      getItems()
+    async () => {
+      await getItems()
       console.log(gState)
+    }
     }, [])
   
       

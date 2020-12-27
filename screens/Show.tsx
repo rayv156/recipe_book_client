@@ -7,8 +7,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../types';
 import { GlobalCtx } from '../App'
-import { Container, Text, Card, Header, Left, DatePicker, Thumbnail, CardItem, Button, Body, Fab, Icon, H1 } from 'native-base';
+import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body, Fab, Icon, H1 } from 'native-base';
 import LottieView from 'lottie-react-native';
+import DatePicker from 'react-native-datepicker'
 
 
 
@@ -26,7 +27,7 @@ export default function Show({
       aisle: [],
       items: [],
       name: "",
-      date: "",
+      date: new Date(),
       user_id: user_id
     })
     const [favorite, setFavorite] = React.useState(
@@ -187,15 +188,48 @@ export default function Show({
     </View>
     </ScrollView>
     <Modal animationType="slide" transparent={true} visible={modal} >
-      <View style={{marginTop: 150, padding: 20, backgroundColor: 'white'}}>
+      <View style={{marginTop: 150, padding: 20, backgroundColor: 'white', shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,}}>
+      <H1 style={{marginBottom: 20}}>Add Grocery List</H1>
         <Text>List Name: </Text>
       <TextInput autoCapitalize="none" type="text" name="name" value={groceryList.name} onChangeText={(text) => createChange({ type: 'name', text })} style={styles.input}/>
       <Text>Date: </Text>
-      <TextInput autoCapitalize="none" type="text" name="date" value={groceryList.date} onChangeText={(text) => createChange({ type: 'date', text })} style={styles.input}/>
-      
-            <Button style={{ backgroundColor: 'green' }} onPress={()=> {handleGrocery(); setModal(!modal)}}>
-              <Icon name="cart-outline" />
+      <DatePicker
+          style={styles.datePickerStyle}
+          date={groceryList.date} // Initial date from state
+          mode="date" // The enum of date, datetime and time
+          placeholder="select date"
+          format="YYYY-MM-DD"
+          minDate="2020-12-01"
+          maxDate="2021-12-01"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 3,
+            },
+          }}
+          onDateChange={(date) => {
+            setGroceryList({...groceryList, date: date});
+          }}
+        />
+      <View style={{display: 'flex', flexDirection: 'row', marginTop: 20, justifyContent: 'space-between'}}>
+      <Button style={{ backgroundColor: 'red' }} onPress={()=> {setModal(!modal)}}>
+             <Text>Cancel</Text>
             </Button>
+            <Button style={{ backgroundColor: 'green' }} onPress={()=> {handleGrocery(); setModal(!modal)}}>
+             <Text>Create List</Text>
+            </Button>
+            </View>
       </View>
     </Modal>
       <Fab
@@ -254,6 +288,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: "center",
     backgroundColor: 'white',
+    marginBottom: 20
   },
   icons: {
     borderBottomWidth: 3,
@@ -275,5 +310,9 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     color: 'white',
     textAlign: 'center'
+  },
+  datePickerStyle: {
+    width: 200,
+    marginTop: 20,
   },
 });
