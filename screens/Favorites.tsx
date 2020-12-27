@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store'
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
-import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body } from 'native-base';
+import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body, H1 } from 'native-base';
 import * as Font from 'expo-font';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
@@ -64,7 +64,7 @@ const Favorites = ({navigation}) => {
 
   return (<>
     <View style={styles.header}>
-          
+    <H1 style={{color: 'white', paddingLeft: 50}}>Favorites</H1>
         <Image style={{width: 150, height: 50, margin: 0, alignSelf: 'flex-end'}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
       </View>
     <ScrollView>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   header: {
-    display: 'flex', flexDirection: 'row-reverse', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', paddingTop: 50, height: 100, shadowColor: '#000',
+    display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', paddingTop: 50, height: 100, shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,

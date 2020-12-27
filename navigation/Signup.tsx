@@ -4,11 +4,11 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
-  Image, Keyboard
+  Image, Keyboard, KeyboardAvoidingView, Platform, Text, View
         } from 'react-native';
 import * as SecureStore from 'expo-secure-store'
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+//import { Text, View } from '../components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import { GlobalCtx } from '../App';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -55,14 +55,17 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
     })
   }
     return (
+        <View style={{flex: 1}}>
+            <KeyboardAvoidingView
+            behavior="padding" style={styles.container}>
         
-        <View style={styles.container}>
+            <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{margin: 'auto', backgroundColor: bckColor}}>
           <Image style={{width: 300, height: 300, alignSelf: 'center'}} source={{uri: 'https://i.imgur.com/DLZFi0p.png'}}/>
           
           <View style={{flexDirection: 'row', backgroundColor: bckColor, justifyContent: 'center'}}>
             <Text style={styles.icons}><Ionicons name="person-outline" style={{fontSize: 30}}/></Text>
-        <TextInput autoCapitalize="none" type="text" name="username" placeholder="username" value={formData.username} onChangeText={(text) => createChange({ type: 'username', text })} style={styles.input}/>
+        <TextInput autoCapitalize="none" type="text" name="username" autoFocus={true} placeholder="username" value={formData.username} onChangeText={(text) => createChange({ type: 'username', text })} style={styles.input}/>
         </View>
         <Text>
 
@@ -86,7 +89,7 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
         
         <View style={{flexDirection: 'row', backgroundColor: bckColor, justifyContent: 'center'}}>
         <Text style={styles.icons}><Ionicons name="mail-outline" style={{fontSize: 30, marginBottom: -10}}/></Text>
-        <TextInput autoCapitalize="none" type="text" name="email" placeholder="email" value={formData.email} onChangeText={(text) => createChange({ type: 'email', text })} style={styles.input}/>
+        <TextInput autoCapitalize="none" type="text" name="email"  placeholder="email" value={formData.email} onChangeText={(text) => createChange({ type: 'email', text })} style={styles.input}/>
         </View>
         </TouchableWithoutFeedback>
         <TouchableOpacity style={styles.btn} onPress={()=> handleCreate()}>
@@ -98,8 +101,11 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
         </Text>
         <Text></Text>
         <TouchableOpacity onPress={()=>navigation.goBack()}>
-            <Text>Back to login screen</Text>
+            <Text style={{textAlign: 'center'}}>Back to login screen</Text>
             </TouchableOpacity>
+        </ScrollView>
+        </KeyboardAvoidingView>
+        
         </View>
         
     )
@@ -130,6 +136,7 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
       borderRadius: 25,
       height: 50,
       alignItems: "center",
+      alignSelf: 'center',
       justifyContent: "center",
       marginTop: 40,
       backgroundColor: "black",

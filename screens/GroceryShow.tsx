@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
-import { Container, Text, Card, Left, List, Thumbnail, CardItem, Button, Body } from 'native-base';
+import { Container, Text, Card, Left, List, ListItem, Thumbnail, CardItem, Button, Body, H1 } from 'native-base';
 import * as Font from 'expo-font';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
@@ -27,17 +27,18 @@ const GroceryShow = ({
             </TouchableOpacity>
         <Image style={{width: 150, height: 50, margin: 0, alignSelf: 'center'}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
       </View>
-          <ScrollView>
-          <View>
+          <ScrollView >
+          <View style={{paddingBottom: 50}}>
+              <H1 style={{textAlign: 'center'}}>{grocery.name}</H1>
               <View>
-                <Text style={styles.title}>{grocery.aisle.map((item, index)=> {
+                <List style={styles.title}>{grocery.aisle.map((item, index)=> {
                 return(<>
-                <Text>Aisle: {`${item} `}</Text>
-                <Text>Item: {`${grocery.items[index]}`}</Text>
+                <ListItem itemDivider><Text> {`${item}`}</Text></ListItem>
+                <ListItem><Text>{`${grocery.items[index]}`}</Text></ListItem>
                 </>
                 )})}
-                </Text>
-                <TouchableOpacity onPress={async ()=> {
+                </List>
+                <Button style={{justifyContent: 'center', alignSelf: 'center', width: '50%', backgroundColor: 'red'}} onPress={async ()=> {
         const token = await SecureStore.getItemAsync('secure_token');
       await fetch(`${gState.url}/grocery_lists/` + grocery.id, {
         method: "delete",
@@ -47,7 +48,7 @@ const GroceryShow = ({
         },
       })
       navigation.goBack()
-    }}><Text>Delete</Text></TouchableOpacity>
+    }}><Ionicons name="trash" style={{fontSize: 30, color: 'white'}}></Ionicons></Button>
               </View>
         
     </View>
@@ -68,6 +69,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    paddingBottom: 20
   },
   separator: {
     marginVertical: 30,

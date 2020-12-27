@@ -146,7 +146,7 @@ function SettingsNavigator() {
       <SettingsStack.Screen
         name="SettingsScreen"
         component={Settings}
-        options={{ headerTitle: 'Settings' }}
+        options={{ headerShown: false }}
       />
     </SettingsStack.Navigator>
   );
