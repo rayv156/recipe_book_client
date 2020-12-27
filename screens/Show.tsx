@@ -1,22 +1,34 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, View, Image, AsyncStorage } from 'react-native';
+import { StyleSheet, Alert, Modal, TextInput, TouchableOpacity, View, Image, AsyncStorage } from 'react-native';
 import * as SecureStore from 'expo-secure-store'
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../types';
 import { GlobalCtx } from '../App'
-import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body, Fab, Icon, H1 } from 'native-base';
+import { Container, Text, Card, Header, Left, DatePicker, Thumbnail, CardItem, Button, Body, Fab, Icon, H1 } from 'native-base';
+import LottieView from 'lottie-react-native';
+
+
+
+
 export default function Show({
   route, navigation,
-}: StackScreenProps<RootStackParamList, 'NotFound'>) {
+}: StackScreenProps<RootStackParamList, 'Show'>) {
     const {gState, setgState} = React.useContext(GlobalCtx)
     const { user_id } = gState
     const { recipe } = route.params;
-
+    const [modal, setModal] = React.useState(false)
+    const [active, setActive] = React.useState(false)
     const [item, setItem]= React.useState([])
-
+    const [groceryList, setGroceryList] = React.useState({
+      aisle: [],
+      items: [],
+      name: "",
+      date: "",
+      user_id: user_id
+    })
     const [favorite, setFavorite] = React.useState(
         {
             ingredients: [],
@@ -41,6 +53,8 @@ export default function Show({
           
         data.extendedIngredients.map((item) => {
             favorite.ingredients.push(item.original)
+            groceryList.aisle.push(item.aisle)
+            groceryList.items.push(item.original)
         })
 
         setFavorite({...favorite,  
@@ -69,6 +83,19 @@ export default function Show({
         getRecipes()
         getInstructions()
       }, [])
+      const handleGrocery = async () => {
+        const token = await SecureStore.getItemAsync('secure_token')
+        await fetch(gState.url + "/grocery_lists", {
+          method: "post",
+          headers: {
+            "Content-Type":"application/json",
+            "Authorization": `bearer ${token}`
+          },
+          body: JSON.stringify(groceryList)
+        })
+        Alert.alert("Added to your Grocery List!")
+      }
+
 
       const handleFavorite = async () => {
         const token = await SecureStore.getItemAsync('secure_token')
@@ -82,7 +109,11 @@ export default function Show({
         })
         favoritesArray.push(favorite.name)
         console.log(favorite)
+        Alert.alert("Added to your favorites!")
       }
+
+      const createChange = ({ type, text }) => 
+    setGroceryList({...groceryList, [type]: text});
 
       const loaded = () => {
           
@@ -155,13 +186,34 @@ export default function Show({
       {item.extendedIngredients ? loaded() : null}
     </View>
     </ScrollView>
-        <Button style={{position: 'absolute',
-    bottom: 10,
-    right: 30,
-    width: 80, 
-    height: 80,
-    borderRadius: 50,
-    backgroundColor: 'rgb(199,114,80)'}} onPress={()=> handleFavorite()}><Icon style={{fontSize: 50, textAlign: 'center', alignSelf: 'center'}} name="add" /></Button>
+    <Modal animationType="slide" transparent={true} visible={modal} >
+      <View style={{marginTop: 150, padding: 20, backgroundColor: 'white'}}>
+        <Text>List Name: </Text>
+      <TextInput autoCapitalize="none" type="text" name="name" value={groceryList.name} onChangeText={(text) => createChange({ type: 'name', text })} style={styles.input}/>
+      <Text>Date: </Text>
+      <TextInput autoCapitalize="none" type="text" name="date" value={groceryList.date} onChangeText={(text) => createChange({ type: 'date', text })} style={styles.input}/>
+      
+            <Button style={{ backgroundColor: 'green' }} onPress={()=> {handleGrocery(); setModal(!modal)}}>
+              <Icon name="cart-outline" />
+            </Button>
+      </View>
+    </Modal>
+      <Fab
+            active={active}
+            direction="left"
+            containerStyle={{ }}
+            style={{ backgroundColor: 'rgb(199,114,80)' }}
+            position="bottomRight"
+            onPress={() => setActive(!active)}>
+            <Icon name="add" />
+            <Button style={{ backgroundColor: 'green' }} onPress={() => {setModal(!modal)}}>
+              <Icon name="cart-outline" />
+            </Button>
+            <Button style={{ backgroundColor: 'red' }} onPress={()=> handleFavorite()}>
+              <Icon name="heart-outline" />
+            </Button>
+          </Fab>
+        
     
        
    
@@ -192,5 +244,36 @@ const styles = StyleSheet.create({
   linkText: {
     fontSize: 14,
     color: '#2e78b7',
+  },
+  input: {
+    borderBottomWidth: 3,
+    width: "80%",
+    height: 45,
+    alignItems: 'center',
+    paddingLeft: 15,
+    justifyContent: 'space-between',
+    alignSelf: "center",
+    backgroundColor: 'white',
+  },
+  icons: {
+    borderBottomWidth: 3,
+    height: 45,
+    fontSize: 30, 
+    paddingLeft: 10,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    color: 'black'
+  },
+  btn: {
+    width: "80%",
+    borderRadius: 25,
+    height: 50,
+    alignSelf: "center",
+    alignItems: 'center',
+    justifyContent: "center",
+    marginTop: 40,
+    backgroundColor: "black",
+    color: 'white',
+    textAlign: 'center'
   },
 });

@@ -1,16 +1,18 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import * as SecureStore from 'expo-secure-store'
+import * as SecureStore from 'expo-secure-store';
+import { List, ListItem } from 'native-base';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const GroceryList = () => {
+const GroceryList = ({navigation}) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
   const [groceries, setGroceries]= React.useState([])
 
   const getGroceries = async () => {
-    const token = await AsyncStorage.getItem('secure_token')
+    const token = await SecureStore.getItemAsync('secure_token')
     const response = await fetch(`${gState.url}/grocery_lists`, {
       method: "get",
       headers: {
@@ -25,48 +27,44 @@ const GroceryList = () => {
   }
 
   React.useEffect(() => {
-    getGroceries()
+    const unsubscribe = navigation.addListener('focus', () => {
+      getGroceries()
+      });
+      return unsubscribe
   }, [])
 
   const loaded = () => (
-    <View>
+    
+    <List>
     {groceries.map((grocery)=> {
       return (
-              <View>
-                <Text style={styles.title}>{grocery.aisle.map((item, index)=> {
-                return(<>
-                <Text>Aisle: {`${item} `}</Text>
-                <Text>Item: {`${grocery.items[index]}`}</Text>
-                </>
-                )})}
-                </Text>
-                <Text >
-                  {grocery.summary}
-                </Text>
-                <TouchableOpacity onPress={async ()=> {
-        const token = await SecureStore.getItemAsync('secure_token');
-      await fetch(`${gState.url}/grocery_lists/` + grocery.id, {
-        method: "delete",
-        headers: {
-          "Content-Type":"application/json",
-          "Authorization": `bearer ${token}`
-        },
-      })
-      getGroceries()
-    }}><Text>Delete</Text></TouchableOpacity>
-              </View>
-        
+        <ListItem style={{width: '100%'}}>
+          <TouchableOpacity onPress={() => navigation.navigate('GroceryShow', {
+            grocery: grocery})
+          } style={{width: '100%',justifyContent: 'center'}}>
+                <Text style={styles.title}>{grocery.name}</Text>
+                <Text style={styles.title}>{grocery.date}</Text>
+          </TouchableOpacity>
+              </ListItem>
     )
     })}
-    </View>
+    </List>
+
     )
 
 
-  return (
+  return (<>
+    <View style={styles.header}>
+          
+        <Image style={{width: 150, height: 50, margin: 0, alignSelf: 'flex-end'}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
+      </View>
+    <ScrollView>
     <View style={styles.container}>
       
       {groceries.length > 0 ? loaded() : null}
     </View>
+    </ScrollView>
+    </>
   );
 }
 
@@ -85,6 +83,12 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  header: {
+    display: 'flex', flexDirection: 'row-reverse', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', paddingTop: 50, height: 100, shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2
+  }
 });
 
 export default GroceryList

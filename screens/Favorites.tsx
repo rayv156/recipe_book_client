@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as SecureStore from 'expo-secure-store'
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -7,6 +7,8 @@ import { View } from '../components/Themed';
 import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body } from 'native-base';
 import * as Font from 'expo-font';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const Favorites = ({navigation}) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
@@ -35,7 +37,7 @@ const Favorites = ({navigation}) => {
   }, [])
 
   const loaded = () => (
-    <Container style={{width: 350}}>
+    <View style={{width: 350}}>
     {favorites.reverse().map((favorite, index)=> {
       return (
         <TouchableOpacity onPress={() => navigation.navigate('FaveShow', {
@@ -56,16 +58,21 @@ const Favorites = ({navigation}) => {
         
     )
     })}
-    </Container>
+    </View>
     )
 
 
-  return (
+  return (<>
+    <View style={styles.header}>
+          
+        <Image style={{width: 150, height: 50, margin: 0, alignSelf: 'flex-end'}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
+      </View>
     <ScrollView>
     <View style={styles.container}>
       {favorites.length > 0 ? loaded() : null}
     </View>
     </ScrollView>
+    </>
   );
 }
 
@@ -84,6 +91,12 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  header: {
+    display: 'flex', flexDirection: 'row-reverse', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', paddingTop: 50, height: 100, shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+  }
 });
 
 export default Favorites

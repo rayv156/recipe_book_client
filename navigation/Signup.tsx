@@ -4,8 +4,7 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
-  Image,
-  Keyboard
+  Image, Keyboard
         } from 'react-native';
 import * as SecureStore from 'expo-secure-store'
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -15,15 +14,17 @@ import { GlobalCtx } from '../App';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-const bckColor = '#fffbf3'
 
-const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
+
+const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
 
   const {url} = gState
     const [formData, setFormData] = React.useState({
         username: "",
-        password: ""
+        password: "",
+        email: "",
+        age: null,
       })
 
     const createChange = ({ type, text }) => 
@@ -33,7 +34,7 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
   //our handle create function, for when the form is submitted
   const handleCreate = async () => {
     
-    await fetch(`${url}/login`, {
+    await fetch(`${url}/users`, {
       method: "post",
       headers: {
         "Content-Type":"application/json"
@@ -41,52 +42,53 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
       body: JSON.stringify(formData)
     })
     .then(response => response.json())
-    .then(async (data) => {
-      try {
-        if (data.token) {
-        await SecureStore.setItemAsync('secure_token', `${data.token}`);
-        await SecureStore.setItemAsync('userid', JSON.stringify(data.user))
-        setgState({...gState, token: true, user_id: data.user.id})
-        } else {
-          setgState({...gState, token: false, user_id: null, error: true})
-        }
-
-      } catch (err) {
-        alert(err);
-      }
+    .then(data => {
+        alert("Thanks for signing up! Login to get started.")
+        navigation.pop()
     })
   }
     return (
-      <View style={styles.container} >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{margin: 'auto', backgroundColor: bckColor}}>
-          <Image style={{width: 300, height: 300, alignSelf: 'center'}} source={{uri: 'https://i.imgur.com/DLZFi0p.png'}}/>
-          <View style={{width: '100%', backgroundColor: '#fffbf3'}}>
-          <View style={{flexDirection: 'row', width: '100%', backgroundColor: bckColor}}>
+        
+        <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{margin: 'auto', backgroundColor: 'rgb(169,172,188)'}}>
+          <Image style={{width: 300, height: 300, alignSelf: 'center'}} source={{uri: 'https://i.imgur.com/5gpNhHF.png'}}/>
+          
+          <View style={{flexDirection: 'row', backgroundColor: 'rgb(169,172,188)', justifyContent: 'center'}}>
             <Text style={styles.icons}><Ionicons name="person-outline" style={{fontSize: 30}}/></Text>
         <TextInput autoCapitalize="none" type="text" name="username" value={formData.username} onChangeText={(text) => createChange({ type: 'username', text })} style={styles.input}/>
         </View>
-        <Text></Text>
-            <Text></Text>
-            <Text></Text>
-        <View style={{flexDirection: 'row', backgroundColor: bckColor}}>
+        <Text>
+
+
+        </Text>
+        
+        <View style={{flexDirection: 'row', backgroundColor: 'rgb(169,172,188)', justifyContent: 'center'}}>
         <Text style={styles.icons}><Ionicons name="lock-closed-outline" style={{fontSize: 30, marginBottom: -10}}/></Text>
         <TextInput autoCapitalize="none" textContentType={'oneTimeCode'} secureTextEntry={true} name="password" value={formData.password} onChangeText={(text) => createChange({ type: 'password', text })} style={styles.input}/>
         </View>
+        <Text>
+
+
+        </Text>
+        
+        <View style={{flexDirection: 'row', backgroundColor: 'rgb(169,172,188)', justifyContent: 'center'}}>
+        <Text style={styles.icons}><Ionicons name="mail-outline" style={{fontSize: 30, marginBottom: -10}}/></Text>
+        <TextInput autoCapitalize="none" type="text" name="email" value={formData.email} onChangeText={(text) => createChange({ type: 'email', text })} style={styles.input}/>
         </View>
-        <Text style={{color: 'red'}}>{gState.error}</Text>
         </TouchableWithoutFeedback>
         <TouchableOpacity style={styles.btn} onPress={()=> handleCreate()}>
             <Text style={{color: 'white'}}>
-                Login
+                Signup
             </Text>
         </TouchableOpacity>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-        <Text style={{textAlign: 'center'}}>If you don't have an account </Text>
-        <TouchableOpacity style={styles.btnSignup} onPress={() => navigation.navigate('Signup')}><Text style={{color: 'white'}}>Signup</Text></TouchableOpacity>
+        <Text>
+        </Text>
+        <Text></Text>
+        <TouchableOpacity onPress={()=>navigation.goBack()}>
+            <Text>Back to login screen</Text>
+            </TouchableOpacity>
         </View>
-    
+        
     )
   }
 
@@ -95,42 +97,29 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
       borderBottomWidth: 3,
       width: "80%",
       height: 45,
-      alignItems: 'center',
-      paddingLeft: 15,
-      justifyContent: 'space-between',
-      alignSelf: "center",
-      backgroundColor: bckColor,
+      alignSelf: 'center',
+      
+      alignItems: "center",
+      backgroundColor: 'rgb(169,172,188)',
     },
     icons: {
       borderBottomWidth: 3,
+      marginLeft: -15,
       height: 45,
       fontSize: 30, 
       paddingLeft: 10,
       alignItems: 'center',
-      backgroundColor: bckColor,
+      backgroundColor: 'rgb(169,172,188)',
       color: 'black'
     },
     btn: {
       width: "80%",
       borderRadius: 25,
       height: 50,
-      alignSelf: "center",
-      alignItems: 'center',
+      alignItems: "center",
       justifyContent: "center",
       marginTop: 40,
       backgroundColor: "black",
-      color: 'white',
-      textAlign: 'center'
-    },
-    btnSignup: {
-      width: "30%",
-      borderRadius: 25,
-      height: 50,
-      alignItems: "center",
-      alignSelf: 'center',
-      justifyContent: "center",
-      marginTop: 40,
-      backgroundColor: "rgb(199, 114, 80)",
       color: 'white'
     },
     body: {
@@ -156,11 +145,10 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
     },
     container: {
       flex: 1,
-      backgroundColor: bckColor,
+      backgroundColor: 'rgb(169,172,188)',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      width: '100%'
     }
   });
 
-export default Login
+export default Signup

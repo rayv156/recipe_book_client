@@ -4,7 +4,7 @@ import { GlobalCtx } from '../App';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
-const Settings = () => {
+const Settings = ({navigation}) => {
     const {gState, setgState} = React.useContext(GlobalCtx)
 
 

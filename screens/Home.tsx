@@ -75,12 +75,12 @@ const Home = ({ navigation }) => {
 
   return (
     <>
-      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', padding: 15, paddingTop: 50}}>
+      <View style={styles.header}>
         <Image style={{width: 150, height: 50, margin: 0}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
-        <TextInput autoCapitalize="none" type="text" name="search" value={formData.term} onChangeText={(text) => createChange({ type: 'term', text })} onSubmitEditing={()=> handleSubmit()} style={styles.input}/>
+        <TextInput autoCapitalize="none" type="text" name="search" placeholder="Search" value={formData.term} onChangeText={(text) => createChange({ type: 'term', text })} onSubmitEditing={()=> handleSubmit()} style={styles.input}/>
         
         <TouchableOpacity onPress={()=> handleSubmit()}>
-        <Text><Ionicons name="search-outline" style={{fontSize: 25}}></Ionicons></Text>
+        <Text style={{color: 'rgb(45,73,79)'}}><Ionicons name="search-outline" style={{fontSize: 30}}></Ionicons></Text>
         </TouchableOpacity>
       </View>
       <ScrollView>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     alignItems: "center",
-    backgroundColor: 'rgb(199,114,80)',
+    backgroundColor: '#fffbf3',
   },
   card: {
     borderRadius: 15, 
@@ -140,7 +140,14 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
+  },
+  header: {
+    display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: 'auto', width: '100%', backgroundColor: 'rgb(169,172,188)', alignItems: 'center', padding: 15, paddingTop: 50,  shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
   }
+  
 });
 
 

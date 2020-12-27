@@ -19,6 +19,8 @@ export default {
         },
       },
       NotFound: '*',
+      Login: 'Login',
+      Signup: 'Signup'
     },
   },
 };

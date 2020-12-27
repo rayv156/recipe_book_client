@@ -3,9 +3,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
 import Login from './Login'
+import Signup from './Signup'
 import NotFoundScreen from '../screens/NotFoundScreen';
 import Show from '../screens/Show';
 import FaveShow from '../screens/FaveShow'
+import GroceryShow from '../screens/GroceryShow'
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -29,11 +31,13 @@ function RootNavigator() {
   const {gState, setgState} = React.useContext(GlobalCtx)
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="Root" component={gState.token ? BottomTabNavigator : Login}/> 
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Screen name="Show" component={Show} options={{ title: 'Recipe' }} />
       <Stack.Screen name="FaveShow" component={FaveShow} options={{ title: 'FaveShow' }} />
-
+      <Stack.Screen name="GroceryShow" component={GroceryShow} options={{ title: 'GroceryShow' }} />
+      <Stack.Screen name="Signup" component={Signup} options={{ title: 'Signup' }} />
+      <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
     </Stack.Navigator>
   );
 }

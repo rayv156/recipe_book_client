@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
-import { Container, Text, Card, Left, Thumbnail, CardItem, Button, Body } from 'native-base';
+import { Container, Text, Card, Left, List, Thumbnail, CardItem, Button, Body } from 'native-base';
 import * as Font from 'expo-font';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
@@ -13,43 +13,33 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../components/Header'
 import * as SecureStore from 'expo-secure-store'
 
-const FaveShow = ({
+const GroceryShow = ({
     route, navigation,
-  }: StackScreenProps<RootStackParamList, 'FaveShow'>) => {
+  }: StackScreenProps<RootStackParamList, 'GroceryShow'>) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
-  const { favorite } = route.params;
+  const { grocery } = route.params;
 
   
       return (<>
-          
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.link}>
-          <Text style={{color: 'white', height: 50, fontSize: 25}}><Ionicons name="chevron-back-outline" style={{fontSize: 25, color: 'white'}}></Ionicons>Back</Text>
-      </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.link}>
+            <Text style={{color: 'white', height: 50, fontSize: 25}}><Ionicons name="chevron-back-outline" style={{fontSize: 25, color: 'white'}}></Ionicons>Back</Text>
+            </TouchableOpacity>
         <Image style={{width: 150, height: 50, margin: 0, alignSelf: 'center'}} source={{uri: 'https://i.imgur.com/YSnmYeW.png'}}/>
       </View>
           <ScrollView>
-              <View style={styles.container}>
-        <Container style={{width: 350}}>
-              <Card>
-                <CardItem>
-                  <Left>
-                    <Thumbnail source={{uri: `${favorite.img}`}}/>
-                    <Body>
-                      <Text>{favorite.name}</Text>
-                    </Body>
-                  </Left>
-                </CardItem>
-                <CardItem cardBody>
-                  <Body>{favorite.ingredients.map((ingredient)=> (<Text>{`${ingredient} `}</Text>))}</Body>
-                  </CardItem>
-                  {favorite.instructions.map((item)=>{
-                return <Text >{item}</Text>
-
-                  })}
-                <Button onPress={async ()=> {
+          <View>
+              <View>
+                <Text style={styles.title}>{grocery.aisle.map((item, index)=> {
+                return(<>
+                <Text>Aisle: {`${item} `}</Text>
+                <Text>Item: {`${grocery.items[index]}`}</Text>
+                </>
+                )})}
+                </Text>
+                <TouchableOpacity onPress={async ()=> {
         const token = await SecureStore.getItemAsync('secure_token');
-      await fetch(`${gState.url}/recipes/` + favorite.id, {
+      await fetch(`${gState.url}/grocery_lists/` + grocery.id, {
         method: "delete",
         headers: {
           "Content-Type":"application/json",
@@ -57,14 +47,14 @@ const FaveShow = ({
         },
       })
       navigation.goBack()
-    }}><Text>Delete</Text></Button>
-              </Card>
+    }}><Text>Delete</Text></TouchableOpacity>
+              </View>
         
-        </Container>
-        </View>
-        </ScrollView>
-        </>
+    </View>
+    </ScrollView>
+    </>
       )
+      
 
 }
 
@@ -92,4 +82,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FaveShow
+export default GroceryShow

@@ -34,7 +34,7 @@ export default function BottomTabNavigator() {
         name="Favorites"
         component={FavoritesNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="star-outline" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="heart-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -104,7 +104,7 @@ function FavoritesNavigator() {
       <FavoritesStack.Screen
         name="FavoritesScreen"
         component={Favorites}
-        options={{ headerTitle: 'Favorites' }}
+        options={{ headerShown: false }}
       />
     </FavoritesStack.Navigator>
   );
@@ -118,7 +118,7 @@ function GroceryListNavigator() {
       <GroceryListStack.Screen
         name="GroceryListScreen"
         component={GroceryList}
-        options={{ headerTitle: 'Grocery List' }}
+        options={{ headerShown: false }}
       />
     </GroceryListStack.Navigator>
   );
@@ -132,7 +132,7 @@ function TimerNavigator() {
       <TimerStack.Screen
         name="TimerScreen"
         component={Timer}
-        options={{ headerTitle: 'Timer' }}
+        options={{ headerShown: false }}
       />
     </TimerStack.Navigator>
   );

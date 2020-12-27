@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AsyncStorage } from 'react-native'
+import * as SecureStore from 'expo-secure-store'
 
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
@@ -11,13 +11,13 @@ import Login from './navigation/Login'
 
 export const GlobalCtx = React.createContext(null)
 
-
+//url: "https://ray-recipe-book-api.herokuapp.com"
 export default function App() {
-  const [gState, setgState]= React.useState({token: false, user_id: null, url: "https://ray-recipe-book-api.herokuapp.com"})
+  const [gState, setgState]= React.useState({token: false, user_id: null, url: "https://ray-recipe-book-api.herokuapp.com", error: null})
 
   const getItems = async () => {
-    const token = await AsyncStorage.getItem('secure_token')
-    const user = await JSON.parse(AsyncStorage.getItem('userid'))
+    const token = await SecureStore.getItemAsync('secure_token')
+    const user = await JSON.parse(SecureStore.getItemAsync('userid'))
     if (token) {
       return setgState({...gState, token: true, user_id: user.id})
     } else {
@@ -43,7 +43,7 @@ export default function App() {
     return (
         <GlobalCtx.Provider value={{ gState, setgState }}>
       <SafeAreaProvider>
-      {gState.token ? <Navigation colorScheme={colorScheme} /> : <Login />}
+     <Navigation colorScheme={colorScheme} />
         <StatusBar />
       </SafeAreaProvider>
         </GlobalCtx.Provider>
