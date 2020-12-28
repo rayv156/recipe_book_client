@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import * as SecureStore from 'expo-secure-store';
 import { List, ListItem, H1 } from 'native-base';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { Tile } from 'react-native-elements'
 
 const GroceryList = ({navigation}) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
@@ -36,20 +37,36 @@ const GroceryList = ({navigation}) => {
   const loaded = () => (
     
     <List>
-    {groceries.map((grocery)=> {
+    {groceries.map((grocery,index)=> {
       return (
-        <ListItem style={{width: '100%'}}>
+        <ListItem key={`grocery${index}`} style={{width: '100%'}}>
           <TouchableOpacity onPress={() => navigation.navigate('GroceryShow', {
             grocery: grocery})
           } style={{width: '100%',justifyContent: 'center'}}>
                 <Text style={styles.title}>{grocery.name}</Text>
-                <Text style={styles.title}>{grocery.date}</Text>
+                <Text style={styles.title}>{grocery.date.slice(0,-14)}</Text>
           </TouchableOpacity>
               </ListItem>
     )
     })}
     </List>
 
+    )
+
+    const tile = () => (
+      <View style={{display: 'flex', height: 800, justifyContent: 'center'}}>
+
+        <TouchableOpacity key={`ToHome`} onPress={() => navigation.navigate('Home')
+          }>
+            
+        <Tile
+        imageSrc={{uri: "https://www.thedailymeal.com/sites/default/files/story/2017/Hero_Healthy%20Cart%20Under%2050_Shutterstock_edit.jpg"}}
+        title="Open up a recipe and add the ingredients to your grocery list!" />
+    
+        </TouchableOpacity>
+        
+      </View>
+  
     )
 
 
@@ -61,7 +78,7 @@ const GroceryList = ({navigation}) => {
     <ScrollView>
     <View style={styles.container}>
       
-      {groceries.length > 0 ? loaded() : null}
+      {groceries.length > 0 ? loaded() : tile()}
     </View>
     </ScrollView>
     </>

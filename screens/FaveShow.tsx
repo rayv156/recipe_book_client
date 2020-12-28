@@ -60,7 +60,7 @@ const FaveShow = ({
                 <CardItem cardBody>
                   <Body>
                     <List>
-                    {favorite.ingredients.map((ingredient)=> (<ListItem><Text>{`${ingredient} `}</Text></ListItem>))}
+                    {favorite.ingredients.map((ingredient, index)=> (<ListItem key={`list${index}`}><Text>{`${ingredient} `}</Text></ListItem>))}
                     </List>
                     </Body>
                  
@@ -68,7 +68,7 @@ const FaveShow = ({
                   </Tab>
                   <Tab style={{width: 350, padding: 20}} heading={<TabHeading><Text>Instructions</Text></TabHeading>}>
                   {favorite.instructions.map((item, index)=>{
-                return (<><Text >{`${index+1}. ` + item}</Text>
+                return (<><Text key={`instructions${index}`}>{`${index+1}. ` + item}</Text>
                     <Text></Text></>)
                   })}
                   </Tab>

@@ -3,7 +3,8 @@ import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
-import { Container, Text, Card, Left, List, ListItem, Thumbnail, CardItem, Button, Body, H1 } from 'native-base';
+import { Container, Text, Card, Left, List, ListItem, Thumbnail, CardItem, Button, Body, H1} from 'native-base';
+
 import * as Font from 'expo-font';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
@@ -18,6 +19,7 @@ const GroceryShow = ({
   }: StackScreenProps<RootStackParamList, 'GroceryShow'>) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
   const { grocery } = route.params;
+  
 
     const newArr = []
     const ind = []
@@ -39,8 +41,8 @@ const GroceryShow = ({
               <View>
                 <List style={styles.title}>{newArr.map((section, index)=> {
                     return(<>
-                <ListItem itemDivider><Text> {`${section}`}</Text></ListItem>
-                {ind[index].map((item)=> <ListItem><Text>{item}</Text></ListItem>)}
+                <ListItem key={`newArr${index}`} itemDivider><Text> {`${section}`}</Text></ListItem>
+                {ind[index].map((item, index)=> <ListItem key={`index${index}`}><Text>{item}</Text></ListItem>)}
                 </>
                     )
                 })

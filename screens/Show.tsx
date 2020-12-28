@@ -66,8 +66,6 @@ export default function Show({
             img: data.image
 
         })
-        console.log(favorite)
-        console.log(favoritesArray)
       }
 
       const getInstructions = async () => {
@@ -109,7 +107,6 @@ export default function Show({
           body: JSON.stringify(favorite)
         })
         favoritesArray.push(favorite.name)
-        console.log(favorite)
         Alert.alert("Added to your favorites!")
       }
 
@@ -142,7 +139,7 @@ export default function Show({
                 <Text style={styles.title}>Ingredients:</Text>
                  {item.extendedIngredients.map((ingredient, index)=>{
                      return (<>
-                        <View key={`ingredient${index}`}>
+                        <View key={`ingr${index}`}>
                             <Text>
                                 {`${ingredient.original}`}
                             </Text>
@@ -156,8 +153,8 @@ export default function Show({
  <CardItem>
      <Body>
             <Text style={styles.title}>Instructions:</Text>
-            {favorite.instructions.map((item)=> {
-            return <Text>{item}</Text>
+            {favorite.instructions.map((item, index)=> {
+            return <Text key={`ins${index}`}>{item}</Text>
         })}
         </Body>
         </CardItem>

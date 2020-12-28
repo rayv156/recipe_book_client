@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import * as SecureStore from 'expo-secure-store'
 import { GlobalCtx } from '../App'
 import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
-import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body, H1 } from 'native-base';
+import { Container, Text, Card, Header, Left, Thumbnail, CardItem, Button, Body, H1, Spinner } from 'native-base';
 import * as Font from 'expo-font';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
+import { Tile } from 'react-native-elements'
 
 
 const Favorites = ({navigation}) => {
@@ -40,10 +41,10 @@ const Favorites = ({navigation}) => {
     <View style={{width: 350}}>
     {favorites.reverse().map((favorite, index)=> {
       return (
-        <TouchableOpacity onPress={() => navigation.navigate('FaveShow', {
+        <TouchableOpacity key={`favorite${index}`} onPress={() => navigation.navigate('FaveShow', {
           favorite: favorite})
         }>
-              <Card key={`favorite${index}`}>
+              <Card >
                 <CardItem>
                   <Left>
                     <Thumbnail source={{uri: `${favorite.img}`}}/>
@@ -60,6 +61,20 @@ const Favorites = ({navigation}) => {
     })}
     </View>
     )
+const tile = () => (
+    <View style={{display: 'flex', height: 800, justifyContent: 'center'}}>
+      <TouchableOpacity key={`ToHome`} onPress={() => navigation.navigate('Home')
+        }>
+        <View>
+      <Tile
+      imageSrc={{uri: "https://www.verywellfit.com/thmb/75o_2-1_M6xjw281VegTvP9Kggk=/800x0/filters:no_upscale():max_bytes(150000):strip_icc()/Illo_Recipes-ee5ef7052a0140d49dacf7f686fadc30.jpg"}}
+      title="Search for Recipes and add to your favorites!" />
+      </View>
+      </TouchableOpacity>
+    </View>
+
+  )
+  
 
 
   return (<>
@@ -69,7 +84,7 @@ const Favorites = ({navigation}) => {
       </View>
     <ScrollView>
     <View style={styles.container}>
-      {favorites.length > 0 ? loaded() : null}
+      {favorites.length > 0 ? loaded() : tile()}
     </View>
     </ScrollView>
     </>

@@ -3,6 +3,7 @@ import { StyleSheet, TextInput,
   Button,
   TouchableOpacity,
   AsyncStorage, Image, SafeAreaView, ScrollView } from 'react-native';
+  import {H3, Spinner} from 'native-base'
   import { Ionicons } from '@expo/vector-icons';
   import { NavigationContainer } from '@react-navigation/native';
   import { createStackNavigator } from '@react-navigation/stack';
@@ -42,14 +43,14 @@ const Home = ({ navigation }) => {
   
 
   const loaded = () => (
-    <View style={{display: 'flex', width: '90%', backgroundColor: 'rgb(37,74,80)'}}>
+    <View style={{display: 'flex', width: '90%', backgroundColor: '#fffbf3'}}>
     {recipes.map((recipe, index)=> {
       return (
               <View key={`item${index}`} style={styles.card} >
                 <TouchableOpacity onPress={() => navigation.navigate('Show', {
                   recipe: recipe})
                 }>
-                <Text style={{textAlign: 'center', color: 'black', fontSize: 20}}>{recipe.title}</Text>
+                <H3 style={{textAlign: 'center', color: 'white', fontSize: 25, height: 80, justifyContent: 'center', padding: 10}}>{recipe.title}</H3>
                 <Image style={{width: '100%', height: 300, borderBottomLeftRadius: 15, borderBottomRightRadius: 15}} source={{uri: `${recipe.image}`}} />
                 </TouchableOpacity>
               </View>
@@ -87,7 +88,7 @@ const Home = ({ navigation }) => {
     <View style={styles.container}>
 
 
-      {recipes.length > 0 ? loaded() : null}
+      {recipes.length > 0 ? loaded() : <Spinner color="rgb(37,74,80)"/>}
 
 
     </View>
@@ -103,7 +104,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgb(37,74,80)'
+    backgroundColor: '#fffbf3'
+    
   },
   title: {
     fontSize: 20,
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginTop: 30, 
     width: '100%', 
-    backgroundColor: 'rgb(169,172,187)',
+    backgroundColor: 'rgb(37,74,80)',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,

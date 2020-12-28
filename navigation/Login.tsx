@@ -46,7 +46,7 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
         if (data.token) {
         await SecureStore.setItemAsync('secure_token', `${data.token}`);
         await SecureStore.setItemAsync('userid', JSON.stringify(data.user))
-        setgState({...gState, token: true, user_id: data.user.id})
+        setgState({...gState, token: true, user_id: data.user.id, user_email: data.user.email, user_username: data.user.username})
         } else {
           setgState({...gState, token: false, user_id: null, error: data.error})
         }
@@ -73,7 +73,7 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
         <TextInput autoCapitalize="none" textContentType={'oneTimeCode'} secureTextEntry={true} name="password" placeholder="password" value={formData.password} onChangeText={(text) => createChange({ type: 'password', text })} style={styles.input}/>
         </View>
         </View>
-        <Text style={{color: 'red'}}>{gState.error}</Text>
+        <Text style={{color: 'red', textAlign: 'center', marginTop: 10}}>{gState.error}</Text>
         </TouchableWithoutFeedback>
         <TouchableOpacity style={styles.btn} onPress={()=> handleCreate()}>
             <Text style={{color: 'white'}}>
@@ -117,8 +117,8 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
       alignSelf: "center",
       alignItems: 'center',
       justifyContent: "center",
-      marginTop: 40,
-      backgroundColor: "black",
+      marginTop: 20,
+      backgroundColor: "rgb(37,74,80)",
       color: 'white',
       textAlign: 'center'
     },
