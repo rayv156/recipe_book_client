@@ -51,7 +51,7 @@ const [duration, setDuration] = React.useState(30)
   >
     {({ remainingTime, animatedColor }) => (
       
-      <Animated.Text style={{ color: animatedColor }}>
+      <Animated.Text style={{ color: animatedColor, fontSize: 30}}>
         {new Date (Number(remainingTime) * 1000).toISOString().substr(11,8)}
       </Animated.Text>
     )}

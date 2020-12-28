@@ -19,6 +19,12 @@ const GroceryShow = ({
   const {gState, setgState} = React.useContext(GlobalCtx)
   const { grocery } = route.params;
 
+    const newArr = []
+    const ind = []
+    grocery.aisle.map((item, index)=> {
+        let num = newArr.indexOf(item)
+        num >=0 ? ind[num].push(grocery.items[index]) : newArr.push(item) && ind.push([grocery.items[index]])
+    })
   
       return (<>
         <View style={styles.header}>
@@ -31,12 +37,14 @@ const GroceryShow = ({
           <View style={{paddingBottom: 50}}>
               <H1 style={{textAlign: 'center'}}>{grocery.name}</H1>
               <View>
-                <List style={styles.title}>{grocery.aisle.map((item, index)=> {
-                return(<>
-                <ListItem itemDivider><Text> {`${item}`}</Text></ListItem>
-                <ListItem><Text>{`${grocery.items[index]}`}</Text></ListItem>
+                <List style={styles.title}>{newArr.map((section, index)=> {
+                    return(<>
+                <ListItem itemDivider><Text> {`${section}`}</Text></ListItem>
+                {ind[index].map((item)=> <ListItem><Text>{item}</Text></ListItem>)}
                 </>
-                )})}
+                    )
+                })
+                }
                 </List>
                 <Button style={{justifyContent: 'center', alignSelf: 'center', width: '50%', backgroundColor: 'red'}} onPress={async ()=> {
         const token = await SecureStore.getItemAsync('secure_token');
