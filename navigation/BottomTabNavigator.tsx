@@ -51,13 +51,13 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="timer-outline" color={color} />,
         }}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="Settings"
         component={SettingsNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="settings-outline" color={color} />,
         }}
-      />
+      /> */}
     </BottomTab.Navigator>
   );
 }

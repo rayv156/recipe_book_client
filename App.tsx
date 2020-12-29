@@ -11,7 +11,7 @@ import Login from './navigation/Login'
 
 export const GlobalCtx = React.createContext(null)
 
-//url: "https://ray-recipe-book-api.herokuapp.com"
+
 export default function App() {
   const [gState, setgState]= React.useState({token: false, user_id: null, user_email: null, user_username: null, url: "https://ray-recipe-book-api.herokuapp.com", error: null})
 
