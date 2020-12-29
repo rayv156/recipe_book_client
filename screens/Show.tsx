@@ -47,7 +47,14 @@ export default function Show({
     
 
     const getRecipes = async () => {
-        const response = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/information?includeNutrition=false&apiKey=b154528e8f6c4ade84dfdadf47dbeada`)
+      const token = await SecureStore.getItemAsync('secure_token')
+        const response = await fetch(`${gState.url}/databases/instructions/${recipe.id}`, {
+          method: "get",
+          headers: {
+            "Content-Type":"application/json",
+            "Authorization": `bearer ${token}`
+          }
+        })
         const data = await response.json()
         
           setItem(data)
@@ -69,7 +76,14 @@ export default function Show({
       }
 
       const getInstructions = async () => {
-             const response = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/analyzedInstructions?apiKey=b154528e8f6c4ade84dfdadf47dbeada`)
+        const token = await SecureStore.getItemAsync('secure_token')
+             const response = await fetch(`${gState.url}/databases/information/${recipe.id}`, {
+              method: "get",
+              headers: {
+                "Content-Type":"application/json",
+                "Authorization": `bearer ${token}`
+              }
+            })
 
             const data = await response.json()
 

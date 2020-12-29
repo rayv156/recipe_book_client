@@ -10,13 +10,13 @@ import { StyleSheet, TextInput,
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { GlobalCtx } from '../App'
-
+import * as SecureStore from 'expo-secure-store'
 
 const Home = ({ navigation }) => {
   const {gState, setgState} = React.useContext(GlobalCtx)
 
   const [URL, setURL] = React.useState({
-    url: `https://api.spoonacular.com/recipes/random?number=20&apiKey=b154528e8f6c4ade84dfdadf47dbeada`
+    url: `${gState.url}/databases/random`
 })
 
   const [recipes, setRecipes]= React.useState([])
@@ -26,7 +26,14 @@ const Home = ({ navigation }) => {
   })
 
   const getRecipes = async () => {
-    const response = await fetch(URL.url)
+    const token = await SecureStore.getItemAsync('secure_token')
+    const response = await fetch(URL.url, {
+      method: "get",
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `bearer ${token}`
+      }
+    })
     const data = await response.json()
     if (data.recipes) {
       setRecipes(data.recipes)
@@ -62,12 +69,8 @@ const Home = ({ navigation }) => {
 
   const createChange = ({ type, text }) => {
   setFormData({...formData, [type]: text});
-  setURL({...URL, url: `https://api.spoonacular.com/recipes/complexSearch?query=${formData.term}&number=20&apiKey=b154528e8f6c4ade84dfdadf47dbeada`});
+  setURL({...URL, url: `${gState.url}/databases/search/${formData.term}`});
   }
-  
-  const createURLChange = () => {
-
-}
 
   //our handle create function, for when the form is submitted
   const handleSubmit = async () => {
