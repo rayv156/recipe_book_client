@@ -49,9 +49,22 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
       body: JSON.stringify(formData)
     })
     .then(response => response.json())
-    .then(data => {
-        alert("Thanks for signing up! Login to get started.")
-        navigation.pop()
+    .then((data) => {
+        try {
+            if (data.token) {
+                setgState({...gState, error: null})
+                alert("Thanks for signing up! Login to get started.")
+                navigation.pop()
+            } else {
+                console.log("hello")
+              setgState({...gState, error: data.error})
+            }
+    
+          } catch (err) {
+              
+            alert(err);
+          }
+       
     })
   }
     return (
@@ -92,6 +105,7 @@ const Signup = ({navigation}: StackScreenProps<RootStackParamList, 'Signup'>) =>
         <TextInput autoCapitalize="none" type="text" name="email"  placeholder="email" value={formData.email} onChangeText={(text) => createChange({ type: 'email', text })} style={styles.input}/>
         </View>
         </TouchableWithoutFeedback>
+        <Text style={{color: 'red', textAlign: 'center', marginTop: 10}}>{gState.error}</Text>
         <TouchableOpacity style={styles.btn} onPress={()=> handleCreate()}>
             <Text style={{color: 'white'}}>
                 Signup

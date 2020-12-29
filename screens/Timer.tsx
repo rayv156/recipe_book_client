@@ -51,7 +51,7 @@ const [duration, setDuration] = React.useState(30)
   >
     {({ remainingTime, animatedColor }) => (
       
-      <Animated.Text style={{ color: animatedColor, fontSize: 30}}>
+      <Animated.Text style={{ color: animatedColor, fontSize: 40, fontFamily: 'digital'}}>
         {new Date (Number(remainingTime) * 1000).toISOString().substr(11,8)}
       </Animated.Text>
     )}
@@ -69,19 +69,19 @@ const [duration, setDuration] = React.useState(30)
       <ScrollView>
     <View style={styles.container}>
       <View style={{display: 'flex', flexDirection: 'row', width: '40%', justifyContent: 'space-between', alignItems: 'center'}}>
-      <H3>Hours:</H3>
+      <H3 style={{fontFamily: 'digital', fontSize: 30}}>Hours:</H3>
       <TextInput style={styles.input} value={time.hours} placeholder="00" keyboardType="numeric" onChangeText={(text) => createChange({ type: 'hours', text })}></TextInput>
       </View>
       <Text></Text>
       <Text></Text>
       <View style={{display: 'flex', flexDirection: 'row', width: '40%', justifyContent: 'space-between', alignItems: 'center'}}>
-      <H3>Minutes:</H3>
+      <H3 style={{fontFamily: 'digital', fontSize: 30}}>Minutes:</H3>
       <TextInput style={styles.input} value={time.minutes} placeholder="00" keyboardType="numeric" onChangeText={(text) => createChange({ type: 'minutes', text })}></TextInput>
       </View>
       <Text></Text>
       <Text></Text>
       <View style={{display: 'flex', flexDirection: 'row', width: '40%', justifyContent: 'space-between', alignItems: 'center'}}>
-      <H3>Seconds:</H3>
+      <H3 style={{fontFamily: 'digital', fontSize: 30}}>Seconds:</H3>
       <TextInput style={styles.input} value={time.seconds} placeholder="00" keyboardType="numeric" onChangeText={(text) => createChange({ type: 'seconds', text })}></TextInput>
       </View>
       <Text></Text>
@@ -111,7 +111,8 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     justifyContent: 'space-between',
     alignSelf: "center",
-    fontSize: 20
+    fontSize: 30,
+    fontFamily: 'digital'
   },
   title: {
     fontSize: 20,

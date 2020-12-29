@@ -5,7 +5,8 @@ import {
   Button,
   TouchableOpacity,
   Image,
-  Keyboard
+  Keyboard,
+  KeyboardAvoidingView
         } from 'react-native';
 import * as SecureStore from 'expo-secure-store'
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -46,7 +47,7 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
         if (data.token) {
         await SecureStore.setItemAsync('secure_token', `${data.token}`);
         await SecureStore.setItemAsync('userid', JSON.stringify(data.user))
-        setgState({...gState, token: true, user_id: data.user.id, user_email: data.user.email, user_username: data.user.username})
+        setgState({...gState, token: true, user_id: data.user.id, user_email: data.user.email, user_username: data.user.username, error: null})
         } else {
           setgState({...gState, token: false, user_id: null, error: data.error})
         }
@@ -58,6 +59,9 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
   }
     return (
       <View style={styles.container} >
+         <KeyboardAvoidingView
+            behavior="padding" style={styles.container}>
+        <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} style={{margin: 'auto', backgroundColor: bckColor}}>
           <Image style={{width: 300, height: 300, alignSelf: 'center'}} source={{uri: 'https://i.imgur.com/DLZFi0p.png'}}/>
           <View style={{width: '100%', backgroundColor: '#fffbf3'}}>
@@ -85,6 +89,8 @@ const Login = ({navigation}: StackScreenProps<RootStackParamList, 'Login'>) => {
             <Text></Text>
         <Text style={{textAlign: 'center'}}>If you don't have an account, cook one up here </Text>
         <TouchableOpacity style={styles.btnSignup} onPress={() => navigation.navigate('Signup')}><Text style={{color: 'white'}}>Signup</Text></TouchableOpacity>
+        </ScrollView>
+        </KeyboardAvoidingView>
         </View>
     
     )

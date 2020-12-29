@@ -102,8 +102,8 @@ const Home = ({ navigation }) => {
             active={active}
             direction="down"
             position="topRight"
-            containerStyle={{marginTop: -90, marginRight: -5, zIndex: 100 }}
-            style={{ backgroundColor: 'rgb(37,74,80)', zIndex: 100}}
+            containerStyle={{marginTop: -90, marginRight: -5 }}
+            style={{ backgroundColor: 'rgb(37,74,80)'}}
             onPress={() =>  setActive(!active) }>
             <Icon name="person" />
             <Button style={{ backgroundColor: 'red' }} onPress={() => removeKey()}>
